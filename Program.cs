@@ -9,11 +9,27 @@ namespace FileCopy
     {
         static async Task Main(string[] args)
         {
-            var input = @"\\remote-server\share\file";
-            var output = @"C:\remote-server\share\file";
+            var baseDest = @"C:\";
 
-            await CopyFile(input, output);
-            // await CopyDirectory(input, output);
+            var sources = new[]
+            {
+                @"\\remote-server\share\some_file",
+				@"\\remote-server\share\some_directory"
+            };
+
+            foreach (var src in sources)
+            {
+                var dest = Path.Combine(baseDest, src.Replace(@"\\", ""));
+
+                if (File.Exists(dest))
+                {
+                    await CopyFile(src, dest);
+                }
+                else if (Directory.Exists(dest))
+                {
+                    await CopyDirectory(src, dest);
+                }
+            }
         }
 
         private static async Task CopyDirectory(string src, string dst)
