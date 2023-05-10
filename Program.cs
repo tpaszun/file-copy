@@ -21,11 +21,11 @@ class Program
         {
             var dest = Path.Combine(baseDest, src.Replace(@"\\", ""));
 
-            if (File.Exists(dest))
+            if (File.Exists(src))
             {
                 await CopyFile(src, dest);
             }
-            else if (Directory.Exists(dest))
+            else if (Directory.Exists(src))
             {
                 await CopyDirectory(src, dest);
             }
